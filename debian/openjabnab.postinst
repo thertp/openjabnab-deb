@@ -1,0 +1,53 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    configure)
+	conf=`tempfile`
+	. /usr/share/debconf/confmodule
+
+	db_get openjabnab/hostname
+	fqdn=$RET;
+
+	adduser --system --home /var/lib/openjabnab  \
+        	--group --quiet openjabnab || true
+
+	# config
+	mkdir -p /etc/xdg/openjabnab/plugins
+	mkdir -p /etc/xdg/openjabnab/tts
+	mkdir -p /etc/xdg/openjabnab/accounts
+	mkdir -p /etc/xdg/openjabnab/bunnies
+	mkdir -p /etc/xdg/openjabnab/ztamps
+	cat /usr/share/doc/openjabnab/examples/openjabnab.ini-dist | \
+		sed -e 's!RealHttpRoot = ../../http-wrapper!RealHttpRoot = /var/lib/openjabnab!g' \
+			-e "s!my.domain.com!$fqdn!g" > $conf
+
+	ucf --debconf-ok $conf /etc/xdg/openjabnab/openjabnab.ini
+	ucfr openjabnab /etc/xdg/openjabnab/openjabnab.ini
+	rm $conf;
+	chmod 0644 /etc/xdg/openjabnab/openjabnab.ini
+	chown -R openjabnab:openjabnab /etc/xdg/openjabnab/
+
+	# data
+	mkdir -p /var/lib/openjabnab/ojn_local/plugins
+	mkdir -p /var/lib/openjabnab/ojn_local/tts
+	chown -R openjabnab:openjabnab /var/lib/openjabnab/ojn_local
+
+	# logs
+	mkdir /var/log/openjabnab
+	chown openjabnab:adm /var/log/openjabnab
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

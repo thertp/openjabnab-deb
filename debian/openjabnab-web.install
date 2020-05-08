@@ -1,0 +1,4 @@
+http-wrapper/openjabnab.php usr/share/openjabnab/http-wrapper/
+http-wrapper/ojn_admin	usr/share/openjabnab/http-wrapper/
+http-wrapper/ojn_local/bootcode	usr/share/openjabnab/http-wrapper/ojn_local/
+debian/common.php	usr/share/openjabnab/http-wrapper/ojn_admin/include/

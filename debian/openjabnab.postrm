@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+	if [ -x "$(command -v deluser)" ]; then
+		deluser --quiet --system openjabnab > /dev/null || true
+	else
+		echo >&2 "not removing openjabnab system account because deluser command was not found"
+	fi
+	if [ -x "$(command -v ucf)" ]; then
+		ucf --purge /etc/xdg/openjabnab/openjabnab.ini
+	fi
+	if [ -x "$(command -v ucfr)" ]; then
+		ucfr --purge openjabnab /etc/xdg/openjabnab/openjabnab.ini
+	fi
+	for ext in '' '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
+		rm -f /etc/xdg/openjabnab/openjabnab.ini$ext
+	done
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,9 @@
+Template: openjabnab/adminaddr
+Type: string
+Description: Administrator email address:
+ Please enter the email address associated with the openjabnab administrator account.
+
+Template: openjabnab/hostname
+Type: string
+Description: Web site vhost
+ Please enter the FQDN of the vhost used for the openjabnab web interface.

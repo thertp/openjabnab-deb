@@ -1,0 +1,102 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+write_apache_conf()
+{
+	conf=`tempfile`
+
+        db_get openjabnab/hostname
+	fqdn=$RET;
+
+cat >> $conf <<-EOF
+<VirtualHost  *:80>
+        ServerName $fqdn
+        ErrorLog /var/log/apache2/$fqdn.log
+        TransferLog /var/log/apache2/$fqdn.log
+        Alias /     /usr/share/openjabnab/http-wrapper/
+        <Directory /usr/share/openjabnab/http-wrapper/>
+                Order allow,deny
+                Allow from all
+                require all granted
+                RewriteEngine on
+                RewriteCond     %{REQUEST_URI} ^.*/\.git/.*\$
+                RewriteRule     .* / [F]
+
+                RewriteRule     vl/bc.jsp\$     /ojn_local/bootcode/bootcode.default    [L]
+                RewriteCond     %{REQUEST_URI} !^.*openjabnab\.php.*\$
+                RewriteCond     %{REQUEST_URI} !/ojn_local/
+                RewriteCond     %{REQUEST_URI} !/ojn_admin/
+                RewriteCond     %{REQUEST_URI} !/favicon.ico
+                RewriteRule     ^.*\$    /openjabnab.php [L]
+        </Directory>
+</VirtualHost>
+EOF
+	ucf --debconf-ok $conf /etc/openjabnab/apache.conf
+	ucfr openjabnab-web /etc/openjabnab/apache.conf
+	rm $conf;
+}
+
+write_nginx_conf()
+{
+	db_get openjabnab/adminaddr
+	adminaddr=$RET;
+
+	db_get openjabnab/hostname
+	fqdn=$RET;
+
+	conf=`tempfile`
+        cat /usr/share/doc/openjabnab-web/README.nginx | \
+                sed -e 's!/var/htdocs/openjabnab!/usr/share/openjabnab/http-wrapper!g' \
+                        -e "s!terrier.cavaweb.info!$fqdn!g" > $conf
+
+        ucf --debconf-ok $conf /etc/openjabnab/nginx.conf
+        ucfr openjabnab-web /etc/openjabnab/nginx.conf
+        rm $conf;
+}
+
+write_common_php()
+{
+	db_get openjabnab/adminaddr
+	adminaddr=$RET;
+
+	db_get openjabnab/hostname
+	fqdn=$RET;
+
+	conf=`tempfile`
+	cat >> $conf <<-EOF
+	<?php
+        define('ROOT_WWW_ADMIN', 'http://$fqdn/ojn_admin/');
+        define('ROOT_WWW_API', 'http://$fqdn/ojn_api/');
+        define('ADMIN_EMAIL', '$adminaddr');
+	?>
+	EOF
+        ucf --debconf-ok $conf /etc/openjabnab/common.php
+        ucfr openjabnab-web /etc/openjabnab/common.php
+        rm $conf;
+	chmod 0644 /etc/openjabnab/common.php
+}
+
+case "$1" in
+    configure)
+
+	write_common_php
+	write_apache_conf
+	write_nginx_conf
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0
+

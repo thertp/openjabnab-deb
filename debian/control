@@ -1,0 +1,25 @@
+Source: openjabnab
+Section: misc
+Priority: optional
+Maintainer: Arnaud Patard <arnaud.patard@rtp-net.org>
+Build-Depends: debhelper (>= 11), qt5-default
+Standards-Version: 4.1.3
+Homepage: openjabnab.org
+Vcs-Browser: https://github.com/thertp/OpenJabNab.git
+
+Package: openjabnab
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ucf
+Description: OpenJabNab server - daemon
+  An open PHP/C++-based proxy framework for the Nabaztag/Tag electronic pet with jabber protocol.
+  .
+  Nabaztag is a trade mark of Violet. OpenJabNab is not owned by or affiliated with Violet.
+
+Package: openjabnab-web
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, openjabnab, ucf
+Recommends: nginx | apache2
+Description: OpenJabNab server - web server
+  An open PHP/C++-based proxy framework for the Nabaztag/Tag electronic pet with jabber protocol.
+  .
+  Nabaztag is a trade mark of Violet. OpenJabNab is not owned by or affiliated with Violet.

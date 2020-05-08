@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenJabNab
+After=network.target
+
+[Service]
+Type=simple
+User=openjabnab
+Group=openjabnab
+ExecStart=/usr/bin/openjabnab
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

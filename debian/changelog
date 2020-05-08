@@ -1,0 +1,5 @@
+openjabnab (1.0.0+rtp.git1cc5382233ab+dfsg-1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)
+
+ -- Arnaud Patard <arnaud.patard@rtp-net.org>  Fri, 08 May 2020 18:18:51 +0200

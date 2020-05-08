@@ -1,0 +1,2 @@
+var/lib/openjabnab/ojn_local/plugins	usr/share/openjabnab/http-wrapper/ojn_local/plugins
+var/lib/openjabnab/ojn_local/tts	usr/share/openjabnab/http-wrapper/ojn_local/tts

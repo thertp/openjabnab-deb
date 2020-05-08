@@ -1,0 +1,60 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ openjabnab (1.0.0+rtp.git1cc5382233ab+dfsg-1) unstable; urgency=medium
+ .
+   * Initial release (Closes: #nnnn)
+Author: Arnaud Patard <arnaud.patard@rtp-net.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2020-05-09
+
+--- openjabnab-1.0.0+rtp.git1cc5382233ab+dfsg.orig/server/lib/settings.h
++++ openjabnab-1.0.0+rtp.git1cc5382233ab+dfsg/server/lib/settings.h
+@@ -85,6 +85,7 @@ inline int GlobalSettings::GetInt(QStrin
+ inline QDir GlobalSettings::CheckSettingsDir(QString subdir)
+ {
+ 	QString base = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
++	QStringList baselist = QStandardPaths::standardLocations(QStandardPaths::AppConfigLocation);
+ 	QDir basedir = QDir(base);
+ 	QDir compat = QDir(QCoreApplication::applicationDirPath());
+ 
+@@ -103,10 +104,23 @@ inline QDir GlobalSettings::CheckSetting
+ 		return compat;
+ 	}
+ 
+-	if (base.length() == 0) {
++	if ((baselist.length() == 0) && (base.length() == 0)) {
+ 		LogError("Unable to determine settings directory to use\n");
+ 		exit(-1);
+ 	}
++
++	/*
++         * Try to find configuration directory
++         */
++	for (int i = 0; i < baselist.length(); ++i) {
++		QDir d = QDir(baselist.at(i));
++		if (d.exists() && d.cd(subdir))
++			return  d;
++	}
++
++	/*
++	 * Configuration directory not found, so use writable configuration dir
++	 */
+ 	if (!basedir.exists()) {
+ 		if (!basedir.mkpath(".")) {
+ 			LogError("Unable to create " + basedir.path() + "settings directory !\n");

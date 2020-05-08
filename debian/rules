@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export QT_SELECT := qt5
+
+%:
+	dh $@ --buildsystem=qmake
+
+
+override_dh_auto_configure:
+	qmake server/openjabnab.pro 
+
+override_dh_auto_install:
+	dh_auto_install
+	mkdir -p debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openjabnab/tts
