@@ -1,3 +1,9 @@
+openjabnab (1.0.0+rtp.gite7aecc6c67e72+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Arnaud Patard <arnaud.patard@rtp-net.org>  Sat, 09 May 2020 17:59:57 +0200
+
 openjabnab (1.0.0+rtp.git1cc5382233ab+dfsg-1) unstable; urgency=medium
 
   * Initial release (Closes: #nnnn)

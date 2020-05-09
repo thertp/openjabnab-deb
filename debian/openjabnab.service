@@ -1,6 +1,7 @@
 [Unit]
 Description=OpenJabNab
 After=network.target
+Documentation=Openjabnab server
 
 [Service]
 Type=simple

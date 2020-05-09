@@ -11,5 +11,10 @@ override_dh_auto_configure:
 	qmake server/openjabnab.pro 
 
 override_dh_auto_install:
+	install -m0755 -d debian/tmp/usr/share/openjabnab
+	cp -r http-wrapper debian/tmp/usr/share/openjabnab/http-wrapper/
+	chmod -x debian/tmp/usr/share/openjabnab/http-wrapper/openjabnab.php
+	rm -f debian/tmp/usr/share/openjabnab/http-wrapper/ojn_admin/Readme.txt
+	rm -f debian/tmp/usr/share/openjabnab/http-wrapper/ojn_admin/include/.gitignore
 	dh_auto_install
 	mkdir -p debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/openjabnab/tts

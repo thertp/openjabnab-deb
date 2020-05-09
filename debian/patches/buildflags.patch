@@ -1,0 +1,53 @@
+Description: Add dpkg build flags
+ 
+ Configure flags according to https://wiki.debian.org/Hardening#Notes_for_packages_using_QMake
+ .
+Author: Arnaud Patard <arnaud.patard@rtp-net.org>
+
+---
+Origin: vendor
+Forwarded: not-needed
+Last-Update: 2020-05-09
+
+Index: openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/openjabnab.pro
+===================================================================
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72.orig/server/openjabnab.pro
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/openjabnab.pro
+@@ -1,3 +1,7 @@
+ TEMPLATE = subdirs
+ CONFIG += ordered
+ SUBDIRS = lib main plugins tts
++QMAKE_CPPFLAGS += $(shell dpkg-buildflags --get CPPFLAGS)
++QMAKE_CFLAGS   += $(shell dpkg-buildflags --get CFLAGS)
++QMAKE_CXXFLAGS += $(shell dpkg-buildflags --get CXXFLAGS)
++QMAKE_LFLAGS   += $(shell dpkg-buildflags --get LDFLAGS)
+Index: openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/lib.pro
+===================================================================
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72.orig/server/lib/lib.pro
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/lib.pro
+@@ -17,6 +17,10 @@ win32 {
+ }
+ unix {
+ 	QMAKE_CXXFLAGS += -Werror
++	QMAKE_CPPFLAGS += $(shell dpkg-buildflags --get CPPFLAGS)
++	QMAKE_CFLAGS   += $(shell dpkg-buildflags --get CFLAGS)
++	QMAKE_CXXFLAGS += $(shell dpkg-buildflags --get CXXFLAGS)
++	QMAKE_LFLAGS   += $(shell dpkg-buildflags --get LDFLAGS)
+ }
+ # Input
+ HEADERS +=	httphandler.h \
+Index: openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/main/main.pro
+===================================================================
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72.orig/server/main/main.pro
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/main/main.pro
+@@ -20,6 +20,10 @@ win32 {
+ unix {
+ 	QMAKE_LFLAGS += -Wl,-rpath,\'\$$ORIGIN\'
+ 	QMAKE_CXXFLAGS += -Werror
++	QMAKE_CPPFLAGS += $(shell dpkg-buildflags --get CPPFLAGS)
++	QMAKE_CFLAGS   += $(shell dpkg-buildflags --get CFLAGS)
++	QMAKE_CXXFLAGS += $(shell dpkg-buildflags --get CXXFLAGS)
++	QMAKE_LFLAGS   += $(shell dpkg-buildflags --get LDFLAGS)
+ }
+ 
+ # Input

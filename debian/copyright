@@ -29,7 +29,7 @@ Files: *
 Copyright: 2016 Pixel166 <alexis.mellone@gadz.org>
 License: GPL-2+
 
-Files: bootcode
+Files: bootcode/*
 Copyright: 2011 Violet
            2011 Sylvain Huet
 License: MIT
@@ -53,6 +53,8 @@ License: MIT
 
 Files: debian/*
 Copyright: 2020 Arnaud Patard <arnaud.patard@rtp-net.org>
+License: GPL-2+
+
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

@@ -1,0 +1,26 @@
+Index: openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/bunny.cpp
+===================================================================
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72.orig/server/lib/bunny.cpp
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/bunny.cpp
+@@ -808,7 +808,7 @@ API_CALL(Bunny::Api_SetRFIDTagName)
+ 
+ 	QByteArray tagName = hRequest.GetArg("tag").toLatin1();
+ 	if(!knownRFIDTags.contains(tagName))
+-		return new ApiManager::ApiError(QString("Tag '%1' is unkown").arg(hRequest.GetArg("tag")));
++		return new ApiManager::ApiError(QString("Tag '%1' is unknown").arg(hRequest.GetArg("tag")));
+ 
+ 	knownRFIDTags[tagName] = hRequest.GetArg("name");
+ 
+Index: openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/settings.h
+===================================================================
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72.orig/server/lib/settings.h
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72/server/lib/settings.h
+@@ -197,7 +197,7 @@ inline QDir GlobalSettings::LogDir()
+ 		return compat;
+ 
+ 	if (!logdir.exists())
+-		qWarning() << "Log directory doesnt exist\n";
++		qWarning() << "Log directory doesn't exist\n";
+ 
+ 	return logdir;
+ }

@@ -1,1 +1,3 @@
-usr
+usr/bin/openjabnab
+usr/lib/*/*.so.*
+usr/lib/*/openjabnab
