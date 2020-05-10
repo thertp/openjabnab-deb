@@ -1,0 +1,26 @@
+Description: Fix configuration for php-fpm
+
+ On Debian, php-fpm is configured by default to use an unix socket and the 
+ nginx site configuration in the README.nginx file is using 12.0.0.1:9000.
+
+
+Author: Arnaud Patard <arnaud.patard@rtp-net.org>
+
+---
+
+Origin: vendor
+|upstream|other>, <url of original patch>
+Forwarded: not-needed
+Last-Update: 2020-05-10
+
+--- openjabnab-1.0.0+rtp.gite7aecc6c67e72+dfsg.orig/README.nginx
++++ openjabnab-1.0.0+rtp.gite7aecc6c67e72+dfsg/README.nginx
+@@ -35,7 +35,7 @@ server {
+         }
+         location ~ \.php$ {
+                 try_files $uri =404;
+-                fastcgi_pass   127.0.0.1:9000;
++                fastcgi_pass   unix:/run/php/php7.3-fpm.sock;
+                 fastcgi_index  index.php;
+                 include fastcgi_params;
+                 fastcgi_param SCRIPT_FILENAME /var/htdocs/openjabnab$fastcgi_script_name;

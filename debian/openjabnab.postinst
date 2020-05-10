@@ -35,7 +35,7 @@ case "$1" in
 	chown -R openjabnab:openjabnab /var/lib/openjabnab/ojn_local
 
 	# logs
-	mkdir /var/log/openjabnab
+	mkdir -p /var/log/openjabnab
 	chown openjabnab:adm /var/log/openjabnab
     ;;
 

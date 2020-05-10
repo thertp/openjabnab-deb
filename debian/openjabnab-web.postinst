@@ -41,9 +41,6 @@ EOF
 
 write_nginx_conf()
 {
-	db_get openjabnab/adminaddr
-	adminaddr=$RET;
-
 	db_get openjabnab/hostname
 	fqdn=$RET;
 

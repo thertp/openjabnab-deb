@@ -1,3 +1,9 @@
+openjabnab (1.0.0+rtp.gite7aecc6c67e72+dfsg-2) UNRELEASED; urgency=medium
+
+  * Fix postinst to get dpkg-reconfigure working.
+
+ -- Arnaud Patard <arnaud.patard@rtp-net.org>  Sun, 10 May 2020 12:23:35 +0200
+
 openjabnab (1.0.0+rtp.gite7aecc6c67e72+dfsg-1) unstable; urgency=medium
 
   * New upstream release
