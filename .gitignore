@@ -1,0 +1,5 @@
+Makefile
+bin/
+tmp/
+ojn_local/
+server/.qmake.stash
